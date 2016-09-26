@@ -27,9 +27,17 @@ set autoindent
 set smartindent
 set ruler
 set number
+set title
+set cmdheight=2
 
-"use system clipboard
+" Use system clipboard
 set clipboard=unnamed
+
+" Moving between Windows with Alt+<arrow key>
+nmap <silent> <A-Up> :wincmd k<CR>
+nmap <silent> <A-Down> :wincmd j<CR>
+nmap <silent> <A-Left> :wincmd h<CR>
+nmap <silent> <A-Right> :wincmd l<CR>
 
 "================================================================================
 " Closing brace
@@ -67,6 +75,7 @@ nnoremap <silent> <Space> :nohlsearch<Bar>:echo<CR>
 
 "================================================================================
 " Status line
+
 highlight User1 ctermfg=black    ctermbg=grey
 highlight User2 ctermfg=black    ctermbg=grey
 set laststatus=2
@@ -82,7 +91,21 @@ set statusline+=%2*\ \ %m%r%w\ %P\ \ "modified readonly? Top/Bot "Top/Bot/Modifi
 
 "================================================================================
 " Colors
-set background=dark
+
+if &term =~ '256color'
+  " Disable Background Color Erase (BCE) so that color schemes work
+  " properly within 256-color terminals
+  set t_ut=
+endif
+
+if has('gui_running')
+    set background=dark
+	colorscheme koehler
+else
+    set background=dark
+endif
+
+
 highlight Comment ctermfg=DarkGreen
 
 " Completion menu
@@ -95,6 +118,7 @@ autocmd   BufWinEnter * match ExtraWhitespace /\s\+$/
 autocmd   InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
 autocmd   InsertLeave * match ExtraWhitespace /\s\+$/
 
+
 "================================================================================
 " commands
 " Grep - grep files and open a results list
@@ -106,5 +130,10 @@ command -nargs=* Grep execute "lvim" '<args>' "| lw"
 function! ShowAll()
 	set listchars=eol:$,tab:>-,trail:.,nbsp:_,extends:+,precedes:+
 	set list
+endfunction
+
+" ShowNone - Do not show all characters
+function! ShowNone()
+	set nolist
 endfunction
 
