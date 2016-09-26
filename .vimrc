@@ -31,7 +31,7 @@ set title
 set cmdheight=2
 
 " Use system clipboard
-set clipboard=unnamed
+set clipboard=unnamedplus
 
 " Moving between Windows with Alt+<arrow key>
 nmap <silent> <A-Up> :wincmd k<CR>
