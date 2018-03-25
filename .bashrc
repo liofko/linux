@@ -1,0 +1,26 @@
+
+set EDITOR=vim
+set history=400
+set savehist=500
+
+alias ls='ls --color'
+alias h=history
+alias ll='ls -lAtr'
+
+# Colors!
+bold=$(tput bold)
+red="\[$(tput setaf 1)\]"
+green="\[$(tput setaf 2)\]"
+yellow="\[$(tput setaf 3)\]"
+blue="\[$(tput setaf 4)\]"
+magenta="\[$(tput setaf 5)\]"
+cyan="\[$(tput setaf 6)\]"
+white="\[$(tput setaf 7)\]"
+reset="\[$(tput sgr0)\]"
+
+user_color=$green
+[[ ! "${whoami}" == "okoren" ]] || { user_color=$red; }
+
+#set prompt="${green}%n${blue}@%m${yellow}:~ ${yellow}>${end} "
+export PS1="${bold}${user_color}\u${blue}@\h${yellow}:\w >${reset} "
+
