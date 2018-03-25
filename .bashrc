@@ -4,8 +4,9 @@ set history=400
 set savehist=500
 
 alias ls='ls --color'
-alias h=history
 alias ll='ls -lAtr'
+alias h=history
+alias grep='grep --color'
 
 # Colors!
 bold=$(tput bold)
