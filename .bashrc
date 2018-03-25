@@ -7,6 +7,7 @@ alias ls='ls --color'
 alias ll='ls -lAtr'
 alias h=history
 alias grep='grep --color'
+alias vi='vim'
 
 # Colors!
 bold=$(tput bold)
