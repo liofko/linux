@@ -47,7 +47,7 @@ if filereadable(vundle_readme)
 
 	let g:python_highlight_all = 1
 endif
-map <C-n> :NERDTreeToggle<CR>
+map <F2> :NERDTreeToggle<CR>
 
 
 "================================================================================
