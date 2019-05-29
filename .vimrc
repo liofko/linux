@@ -4,10 +4,19 @@
 "Revision History
 "	Ofer	01-Mar-2015	Initial version
 
-" Vundle - plugin manager
-if filereadable("~/.vim/bundle/Vundle.vim")
-	"before adding it need to download Vundle:
-	"	git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+"================================================================================
+" Plugins
+let VundleInstalled=1
+let vundle_readme=expand($HOME.'/.vim/bundle/Vundle.vim/README.md')
+if !filereadable(vundle_readme)
+	echo "Installing Vundle ..."
+	echo ""
+	silent !mkdir -p $HOME/.vim/bundle
+	silent !git clone https://github.com/VundleVim/Vundle.vim $HOME/.vim/bundle/Vundle.vim
+	let VundleInstalled=0
+endif
+
+if filereadable(vundle_readme)
 	set nocompatible              " required
 	filetype off                  " required
 	" set the runtime path to include Vundle and initialize
@@ -20,18 +29,30 @@ if filereadable("~/.vim/bundle/Vundle.vim")
 	" let Vundle manage Vundle, required
 	Plugin 'gmarik/Vundle.vim'
 	Plugin 'vim-python/python-syntax'
+	Plugin 'scrooloose/nerdtree'
+	Plugin 'Xuyuanp/nerdtree-git-plugin'
 	" add all your plugins here (note older versions of Vundle
 	" used Bundle instead of Plugin)
 
 " ...
 
+	if VundleInstalled == 0
+		echo "Installing Plugins, please ignore key map error messages"
+		echo ""
+		:PluginInstall
+	endif
 	" All of your Plugins must be added before the following line
 	call vundle#end()            " required
 	filetype plugin indent on    " required
 
 	let g:python_highlight_all = 1
 endif
+map <C-n> :NERDTreeToggle<CR>
 
+
+"================================================================================
+" General
+silent! E227
 
 if filereadable("/etc/vim/vimrc")
 	source /etc/vim/vimrc
@@ -43,6 +64,7 @@ if filereadable("/usr/share/vim/vim73/syntax/valgrind.vim")
 	source /usr/share/vim/vim73/syntax/valgrind.vim
 endif
 au BufReadPost *.valgrind set syntax=valgrind
+au BufNewFile,BufRead *.gradle set filetype=groovy
 
 "================================================================================
 " General
@@ -68,12 +90,14 @@ nmap <silent> <A-Down> :wincmd j<CR>
 nmap <silent> <A-Left> :wincmd h<CR>
 nmap <silent> <A-Right> :wincmd l<CR>
 
+
+
 "================================================================================
 " Closing brace
-inoremap {      {}<Left>
-inoremap {<CR>  {<CR>}<Esc>O
-inoremap {{     {
-inoremap {}     {}
+"inoremap {      {}<Left>
+"inoremap {<CR>  {<CR>}<Esc>O
+"inoremap {{     {
+"inoremap {}     {}
 
 "================================================================================
 " Buffer Switch : <Tab>
@@ -88,10 +112,20 @@ filetype plugin on " load the plugins for specific file types
 filetype indent on " automatically indent code
 autocmd FileType * set noexpandtab
 " Tabs to space in specific languages
-autocmd FileType python set tabstop=4|set shiftwidth=4|set expandtab
 autocmd FileType c      set tabstop=4|set shiftwidth=4|set expandtab
 autocmd FileType cpp    set tabstop=4|set shiftwidth=4|set expandtab
-
+"autocmd FileType yaml   set tabstop=2|set shiftwidth=2|set expandtab
+autocmd FileType yaml   setlocal ts=2 sts=2 sw=2 expandtab
+autocmd FileType yaml   setlocal re=1
+autocmd FileType python set tabstop=4|set shiftwidth=4|set expandtab
+autocmd BufNewFile,BufRead FileType python
+	\ set tabstop=4
+    \ set softtabstop=4
+    \ set shiftwidth=4
+    \ set textwidth=79
+    \ set expandtab
+    \ set autoindent
+    \ set fileformat=unix
 "================================================================================
 " Search
 set ignorecase
@@ -106,13 +140,14 @@ nnoremap <silent> <Space> :nohlsearch<Bar>:echo<CR>
 " Status line
 
 highlight User1 ctermfg=black    ctermbg=grey
-highlight User2 ctermfg=black    ctermbg=grey
+highlight User2 ctermfg=darkred  ctermbg=grey
+highlight User3 ctermfg=darkblue ctermbg=grey
 set laststatus=2
 set statusline=
 set statusline+=%1*\ %n\ %*		"buffer number
 set statusline+=%1*\ %<%F%*		"full file name
-set statusline+=%1*%=%y%*		"file type
-set statusline+=%1*%=%5{&ff}%*	"file format
+set statusline+=%3*%=%y%*		"file type
+set statusline+=%3*%=%5{&ff}%*	"file format
 set statusline+=%2*%=%5l%*		"current line
 set statusline+=%2*/%L%*		"total lines
 set statusline+=%2*%4v\ %*		"current column
@@ -147,6 +182,15 @@ autocmd   BufWinEnter * match ExtraWhitespace /\s\+$/
 autocmd   InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
 autocmd   InsertLeave * match ExtraWhitespace /\s\+$/
 
+"================================================================================
+" cscope
+"if filereadable("cscope.out")
+"	cs add cscope.out 
+"elseif $CSCOPE_DB != ""
+"	cs add $CSCOPE_DB
+"endif
+						"
+"================================================================================
 
 "================================================================================
 " commands
@@ -165,4 +209,3 @@ endfunction
 function! ShowNone()
 	set nolist
 endfunction
-
