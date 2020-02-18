@@ -31,10 +31,28 @@ if filereadable(vundle_readme)
 	Plugin 'vim-python/python-syntax'
 	Plugin 'scrooloose/nerdtree'
 	Plugin 'Xuyuanp/nerdtree-git-plugin'
+	Plugin 'vim-airline/vim-airline'
+	Plugin 'vim-airline/vim-airline-themes'
 	" add all your plugins here (note older versions of Vundle
 	" used Bundle instead of Plugin)
-
-" ...
+	map <F2> :NERDTreeToggle<CR>
+	" Open NERDTree in the directory of the current file (or /home if no file is open)
+	nmap <F3> :call NERDTreeToggleInCurDir()<cr>
+	function! NERDTreeToggleInCurDir()
+		" If NERDTree is open in the current buffer
+		if (exists("t:NERDTreeBufName") && bufwinnr(t:NERDTreeBufName) != -1)
+			exe ":NERDTreeClose"
+		else
+			exe ":NERDTreeFind"
+		endif
+	endfunction
+	" ...
+	"let g:airline#extensions#tabline#enabled = 1
+	"let g:airline#extensions#tabline#left_sep = ' '
+	"let g:airline#extensions#tabline#left_alt_sep = '>'
+	"let g:airline_left_sep='>'
+	"let g:airline_right_sep='<'
+	"let g:airline_theme='dark'
 
 	if VundleInstalled == 0
 		echo "Installing Plugins, please ignore key map error messages"
@@ -47,7 +65,6 @@ if filereadable(vundle_readme)
 
 	let g:python_highlight_all = 1
 endif
-map <F2> :NERDTreeToggle<CR>
 
 
 "================================================================================
@@ -120,12 +137,12 @@ autocmd FileType yaml   setlocal re=1
 autocmd FileType python set tabstop=4|set shiftwidth=4|set expandtab
 autocmd BufNewFile,BufRead FileType python
 	\ set tabstop=4
-    \ set softtabstop=4
-    \ set shiftwidth=4
-    \ set textwidth=79
-    \ set expandtab
-    \ set autoindent
-    \ set fileformat=unix
+	\ set softtabstop=4
+	\ set shiftwidth=4
+	\ set textwidth=79
+	\ set expandtab
+	\ set autoindent
+	\ set fileformat=unix
 "================================================================================
 " Search
 set ignorecase
@@ -185,11 +202,10 @@ autocmd   InsertLeave * match ExtraWhitespace /\s\+$/
 "================================================================================
 " cscope
 "if filereadable("cscope.out")
-"	cs add cscope.out 
+"	cs add cscope.out
 "elseif $CSCOPE_DB != ""
 "	cs add $CSCOPE_DB
-"endif
-						"
+"endif						"
 "================================================================================
 
 "================================================================================
@@ -209,3 +225,4 @@ endfunction
 function! ShowNone()
 	set nolist
 endfunction
+
