@@ -46,6 +46,7 @@ if filereadable(vundle_readme)
 			exe ":NERDTreeFind"
 		endif
 	endfunction
+	let NERDTreeQuitOnOpen = 1
 	" ...
 	"let g:airline#extensions#tabline#enabled = 1
 	"let g:airline#extensions#tabline#left_sep = ' '
