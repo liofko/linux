@@ -26,13 +26,22 @@ if filereadable(vundle_readme)
 	" alternatively, pass a path where Vundle should install plugins
 	"call vundle#begin('~/some/path/here')
 
+	""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 	" let Vundle manage Vundle, required
 	Plugin 'gmarik/Vundle.vim'
+	" Python
 	Plugin 'vim-python/python-syntax'
+	Plugin 'davidhalter/jedi-vim'
+	" NerdTree
+	"Plugin 'Xuyuanp/nerdtree-git-plugin'
 	Plugin 'scrooloose/nerdtree'
-	Plugin 'Xuyuanp/nerdtree-git-plugin'
+	Plugin 'tpope/vim-fugitive'
+	" Status line
 	Plugin 'vim-airline/vim-airline'
 	Plugin 'vim-airline/vim-airline-themes'
+	" Buffer explorer
+	Plugin 'fholgado/minibufexpl.vim'
+	""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 	" add all your plugins here (note older versions of Vundle
 	" used Bundle instead of Plugin)
 	map <F2> :NERDTreeToggle<CR>
@@ -47,6 +56,8 @@ if filereadable(vundle_readme)
 		endif
 	endfunction
 	let NERDTreeQuitOnOpen = 1
+	let g:jedi#completions_command = "<C-Space>"
+	let g:jedi#show_call_signatures= 2
 	" ...
 	"let g:airline#extensions#tabline#enabled = 1
 	"let g:airline#extensions#tabline#left_sep = ' '
@@ -64,6 +75,7 @@ if filereadable(vundle_readme)
 	call vundle#end()            " required
 	filetype plugin indent on    " required
 
+	" Configuration for python-syntax
 	let g:python_highlight_all = 1
 endif
 
@@ -166,7 +178,6 @@ set statusline+=%1*\ %n\ %*		"buffer number
 set statusline+=%1*\ %<%F%*		"full file name
 set statusline+=%3*%=%y%*		"file type
 set statusline+=%3*%=%5{&ff}%*	"file format
-set statusline+=%2*%=%5l%*		"current line
 set statusline+=%2*/%L%*		"total lines
 set statusline+=%2*%4v\ %*		"current column
 set statusline+=%2*\ \ %m%r%w\ %P\ \ "modified readonly? Top/Bot "Top/Bot/Modified
