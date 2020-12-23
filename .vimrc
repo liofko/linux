@@ -97,7 +97,6 @@ au BufReadPost *.valgrind set syntax=valgrind
 au FileType gradle set filetype=groovy
 au BufNewFile,BufRead,BufEnter,TabEnter *.gradle set filetype=groovy
 au BufNewFile,BufRead,BufEnter,TabEnter  gradle.* set filetype=groovy
-au BufNewFile,BufRead,BufEnter,TabEnter  muse-scripts.properties set filetype=groovy
 
 function! s:Log(eventName) abort
 	  silent execute '!echo '.a:eventName.' >> log'
@@ -128,8 +127,6 @@ nmap <silent> <A-Left> :wincmd h<CR>
 nmap <silent> <A-Right> :wincmd l<CR>
 
 
-" Mouse selection - without line numbers
-set mouse+=a
 
 "================================================================================
 " Closing brace
