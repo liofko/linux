@@ -94,7 +94,14 @@ if filereadable("/usr/share/vim/vim73/syntax/valgrind.vim")
 	source /usr/share/vim/vim73/syntax/valgrind.vim
 endif
 au BufReadPost *.valgrind set syntax=valgrind
-au BufNewFile,BufRead *.gradle set filetype=groovy
+au FileType gradle set filetype=groovy
+au BufNewFile,BufRead,BufEnter,TabEnter *.gradle set filetype=groovy
+au BufNewFile,BufRead,BufEnter,TabEnter  gradle.* set filetype=groovy
+au BufNewFile,BufRead,BufEnter,TabEnter  muse-scripts.properties set filetype=groovy
+
+function! s:Log(eventName) abort
+	  silent execute '!echo '.a:eventName.' >> log'
+endfunction
 
 "================================================================================
 " General
@@ -121,6 +128,8 @@ nmap <silent> <A-Left> :wincmd h<CR>
 nmap <silent> <A-Right> :wincmd l<CR>
 
 
+" Mouse selection - without line numbers
+set mouse+=a
 
 "================================================================================
 " Closing brace
@@ -178,6 +187,7 @@ set statusline+=%1*\ %n\ %*		"buffer number
 set statusline+=%1*\ %<%F%*		"full file name
 set statusline+=%3*%=%y%*		"file type
 set statusline+=%3*%=%5{&ff}%*	"file format
+set statusline+=%2*%=%5l%*		"current line
 set statusline+=%2*/%L%*		"total lines
 set statusline+=%2*%4v\ %*		"current column
 set statusline+=%2*\ \ %m%r%w\ %P\ \ "modified readonly? Top/Bot "Top/Bot/Modified
