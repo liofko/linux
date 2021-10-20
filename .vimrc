@@ -126,7 +126,11 @@ nmap <silent> <A-Down> :wincmd j<CR>
 nmap <silent> <A-Left> :wincmd h<CR>
 nmap <silent> <A-Right> :wincmd l<CR>
 
-
+"================================================================================
+" :find command (search file in sub-folders)
+set path+=.,**
+set wildmenu
+set wildmode=list:full
 
 "================================================================================
 " Closing brace
