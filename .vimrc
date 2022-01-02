@@ -41,6 +41,8 @@ if filereadable(vundle_readme)
 	Plugin 'vim-airline/vim-airline-themes'
 	" Buffer explorer
 	Plugin 'fholgado/minibufexpl.vim'
+	" helm/yaml/gotmpl
+	Plugin 'towolf/vim-helm'
 	""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 	" add all your plugins here (note older versions of Vundle
 	" used Bundle instead of Plugin)
