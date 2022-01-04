@@ -24,7 +24,7 @@ user_color=$green
 [[ ! "${whoami}" == "okoren" ]] || { user_color=$red; }
 
 #set prompt="${green}%n${blue}@%m${yellow}:~ ${yellow}>${end} "
-#export PS1="${bold}${user_color}\u${blue}@\h${yellow}:\w >${reset} "
+export PS1="${bold}${user_color}\u${blue}@\h${yellow}:\w >${reset} "
 
 #export PS1="\[\e[1;32m\]\u\[\e[0m\]@\[\e[1;34m\]\h\[\e[0m\]:\[\e[1;33m\]\W\[\033[0m\] > "
-export PS1="\[\e[5m\]\[\e[1;32m\]\u\[\e[0m\]\[\e[1;34m\]@\h\[\e[0m\]: \[\e[1;33m\]\W\[\033[0m\] > "
+#export PS1="\[\e[5m\]\[\e[1;32m\]\u\[\e[0m\]\[\e[1;34m\]@\h\[\e[0m\]: \[\e[1;33m\]\W\[\033[0m\] > "
