@@ -95,10 +95,6 @@ endif
 if filereadable("/usr/share/vim/vim73/syntax/valgrind.vim")
 	source /usr/share/vim/vim73/syntax/valgrind.vim
 endif
-au BufReadPost *.valgrind set syntax=valgrind
-au FileType gradle set filetype=groovy
-au BufNewFile,BufRead,BufEnter,TabEnter *.gradle set filetype=groovy
-au BufNewFile,BufRead,BufEnter,TabEnter  gradle.* set filetype=groovy
 
 function! s:Log(eventName) abort
 	  silent execute '!echo '.a:eventName.' >> log'
@@ -153,6 +149,21 @@ filetype on " enable file type detection
 filetype plugin on " load the plugins for specific file types
 filetype indent on " automatically indent code
 autocmd FileType * set noexpandtab
+
+set foldenable
+au BufNewFile,BufRead,BufEnter,TabEnter  *.sh set filetype=sh
+au FileType sh let g:sh_fold_enabled=3
+au FileType sh let g:is_bash=1
+au FileType sh let g:is_sh=1
+au FileType sh set foldmethod=syntax
+syntax enable
+
+au BufReadPost *.valgrind set syntax=valgrind
+au FileType gradle set filetype=groovy
+au BufNewFile,BufRead,BufEnter,TabEnter  *.gradle set filetype=groovy
+au BufNewFile,BufRead,BufEnter,TabEnter  gradle.* set filetype=groovy
+au BufNewFile,BufRead,BufEnter,TabEnter  muse-scripts.properties set filetype=groovy
+
 " Tabs to space in specific languages
 autocmd FileType c      set tabstop=4|set shiftwidth=4|set expandtab
 autocmd FileType cpp    set tabstop=4|set shiftwidth=4|set expandtab
