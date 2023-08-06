@@ -1,0 +1,170 @@
+" ===== Syntax =====
+set history=1000
+set undolevels=1000
+set nu
+set tabstop=4
+set shiftwidth=4
+set autoindent
+set smartindent
+set ruler
+set number
+set title
+set cmdheight=2
+
+" ===== Sytem =====
+" Use system clipboard
+set clipboard=unnamedplus
+" Allow move between un-saved buffers
+set hidden
+filetype on " enable file type detection
+filetype plugin on " load the plugins for specific file types
+filetype indent on " automatically indent code
+autocmd FileType * set noexpandtab
+set foldenable
+syntax enable
+
+" ===== Colors =====
+if &term =~ '256color'
+    " Disable Background Color Erase (BCE) so that color schemes work
+    " properly within 256-color terminals
+    set t_ut=
+endif
+
+if has('gui_running')
+	set background=dark
+	colorscheme koehler
+else
+	set background=dark
+endif
+highlight Comment ctermfg=DarkGreen
+
+" Completion menu
+highlight Pmenu    ctermfg=white ctermbg=black
+highlight PmenuSel ctermfg=red ctermbg=Black
+
+" Highlight specific characters
+highlight ExtraWhitespace ctermbg=red guibg=red
+autocmd   BufWinEnter * match ExtraWhitespace /\s\+$/
+autocmd   InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
+autocmd   InsertLeave * match ExtraWhitespace /\s\+$/
+
+" ===== Keys =====
+" Moving between Windows with Alt+<arrow key>
+nmap <silent> <A-Up> :wincmd k<CR>
+nmap <silent> <A-Down> :wincmd j<CR>
+nmap <silent> <A-Left> :wincmd h<CR>
+nmap <silent> <A-Right> :wincmd l<CR>
+" Buffer Switch : <Tab>
+set wildchar=<Tab> wildmenu wildmode=full
+set wildcharm=<C-Z>
+nnoremap <Tab> :b <C-Z>
+" Buffer choose from list:  \b
+nnoremap <Leader>b :ls<Cr>:b<Space>
+
+
+" ===== Search =====
+set ignorecase
+set smartcase
+set incsearch
+set showmatch
+set hlsearch
+"Clear serach by space
+nnoremap <silent> <Space> :nohlsearch<Bar>:echo<CR>
+
+" ===== FileTypes settings =====
+au BufNewFile,BufRead,BufEnter,TabEnter  *.sh set filetype=sh
+au FileType sh let g:sh_fold_enabled=3
+au FileType sh let g:is_bash=1
+au FileType sh let g:is_sh=1
+au FileType sh set foldmethod=syntax
+
+au BufReadPost *.valgrind set syntax=valgrind
+au FileType gradle set filetype=groovy
+au BufNewFile,BufRead,BufEnter,TabEnter  *.gradle set filetype=groovy
+au BufNewFile,BufRead,BufEnter,TabEnter  gradle.* set filetype=groovy
+au BufNewFile,BufRead,BufEnter,TabEnter  muse-scripts.properties set filetype=groovy
+" Tabs to space in specific languages
+autocmd FileType c      set tabstop=4|set shiftwidth=4|set expandtab
+autocmd FileType cpp    set tabstop=4|set shiftwidth=4|set expandtab
+"autocmd FileType yaml   set tabstop=2|set shiftwidth=2|set expandtab
+autocmd FileType yaml   setlocal ts=2 sts=2 sw=2 expandtab
+autocmd FileType yaml   setlocal re=1
+autocmd FileType python set tabstop=4|set shiftwidth=4|set expandtab
+autocmd BufNewFile,BufRead FileType python
+	\ set tabstop=4
+	\ set softtabstop=4
+	\ set shiftwidth=4
+	\ set textwidth=79
+	\ set expandtab
+	\ set autoindent
+	\ set fileformat=unix
+
+
+" =================================================================================================================
+" ===== Commands and Functions =====
+" Grep - grep files and open a results list
+command -nargs=* Grep execute "lvim" '<args>' "| lw"
+
+" Functions (To launch type - :call <func name>)
+" ShowAll - Show all characters
+function! ShowAll()
+	set listchars=eol:$,tab:>-,trail:.,nbsp:_,extends:+,precedes:+
+	set list
+endfunction
+
+" ShowNone - Do not show all characters
+function! ShowNone()
+	set nolist
+endfunction
+
+
+
+" =================================================================================================================
+" ===== Plugins settings =====
+"let ppath=expand('${HOME}/.vim/pack')
+if !isdirectory(expand("$HOME/.vim/pack"))
+	silent !echo -e "\nInstalling VIM plugins - Start\n"
+	silent !mkdir -p ${HOME}/.vim/pack
+	silent !git clone https://github.com/scrooloose/nerdtree                  ${HOME}/.vim/pack/plugins/start/nerdtree
+	silent !git clone https://github.com/Xuyuanp/nerdtree-git-plugin          ${HOME}/.vim/pack/plugins/start/nerdtree-git-plugin
+	silent !git clone https://github.com/vim-airline/vim-airline              ${HOME}/.vim/pack/plugins/start/airline
+	silent !git clone https://github.com/vim-airline/vim-airline-themes       ${HOME}/.vim/pack/plugins/start/airline-theme
+	silent !echo -e "\nInstalling VIM plugins - Done\n"
+	silent !echo -e "Starting VIM...."
+endif
+
+" == NerdTree
+map <F2> :NERDTreeToggle<CR>
+" Open NERDTree in the directory of the current file (or /home if no file is open)
+nmap <F3> :call NERDTreeToggleInCurDir()<cr>
+function! NERDTreeToggleInCurDir()
+" If NERDTree is open in the current buffer
+if (exists("t:NERDTreeBufName") && bufwinnr(t:NERDTreeBufName) != -1)
+exe ":NERDTreeClose"
+else
+exe ":NERDTreeFind"
+endif
+endfunction
+let NERDTreeQuitOnOpen = 1
+
+" == airline
+highlight User1 ctermfg=black    ctermbg=grey
+highlight User2 ctermfg=darkred  ctermbg=grey
+highlight User3 ctermfg=darkblue ctermbg=grey
+set laststatus=2
+set statusline=
+set statusline+=%1*\ %n\ %*		"buffer number
+set statusline+=%1*\ %<%F%*		"full file name
+set statusline+=%3*%=%y%*		"file type
+set statusline+=%3*%=%5{&ff}%*	"file format
+set statusline+=%2*%=%5l%*		"current line
+set statusline+=%2*/%L%*		"total lines
+set statusline+=%2*%4v\ %*		"current column
+set statusline+=%2*\ \ %m%r%w\ %P\ \ "modified readonly? Top/Bot "Top/Bot/Modified
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#formatter = 'default'
+"let g:airline#extensions#tabline#buffer_idx_mode = 2
+
+
+
+
