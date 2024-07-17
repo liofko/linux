@@ -10,7 +10,6 @@ set ruler
 set number
 set title
 set cmdheight=2
-
 " ===== Sytem =====
 " Use system clipboard
 set clipboard=unnamedplus
@@ -58,8 +57,8 @@ nmap <silent> <A-Right> :wincmd l<CR>
 set wildchar=<Tab> wildmenu wildmode=full
 set wildcharm=<C-Z>
 nnoremap <Tab> :b <C-Z>
-" Buffer choose from list:  \b
-nnoremap <Leader>b :ls<Cr>:b<Space>
+" Buffer choose from list:  \w
+nnoremap <Leader>w :ls<Cr>:b<Space>
 
 
 " ===== Search =====
@@ -87,8 +86,7 @@ au BufNewFile,BufRead,BufEnter,TabEnter  muse-scripts.properties set filetype=gr
 autocmd FileType c      set tabstop=4|set shiftwidth=4|set expandtab
 autocmd FileType cpp    set tabstop=4|set shiftwidth=4|set expandtab
 "autocmd FileType yaml   set tabstop=2|set shiftwidth=2|set expandtab
-autocmd FileType yaml   setlocal ts=2 sts=2 sw=2 expandtab
-autocmd FileType yaml   setlocal re=1
+autocmd FileType yaml   setlocal ts=2 sts=2 sw=2 re=1 expandtab
 autocmd FileType python set tabstop=4|set shiftwidth=4|set expandtab
 autocmd BufNewFile,BufRead FileType python
 	\ set tabstop=4
@@ -127,8 +125,11 @@ if !isdirectory(expand("$HOME/.vim/pack"))
 	silent !mkdir -p ${HOME}/.vim/pack
 	silent !git clone https://github.com/scrooloose/nerdtree                  ${HOME}/.vim/pack/plugins/start/nerdtree
 	silent !git clone https://github.com/Xuyuanp/nerdtree-git-plugin          ${HOME}/.vim/pack/plugins/start/nerdtree-git-plugin
+	silent !git clone https://github.com/fholgado/minibufexpl.vim  ${HOME}/.vim/pack/plugins/start/minibufexpl
 	silent !git clone https://github.com/vim-airline/vim-airline              ${HOME}/.vim/pack/plugins/start/airline
 	silent !git clone https://github.com/vim-airline/vim-airline-themes       ${HOME}/.vim/pack/plugins/start/airline-theme
+	silent !git clone https://github.com/Glench/Vim-Jinja2-Syntax             ${HOME}/.vim/pack/plugins/start/Vim-Jinja2-Syntax
+	silent !git clone https://github.com/pearofducks/ansible-vim              ${HOME}/.vim/pack/plugins/start/ansible-vim
 	silent !echo -e "\nInstalling VIM plugins - Done\n"
 	silent !echo -e "Starting VIM...."
 endif
@@ -147,6 +148,25 @@ endif
 endfunction
 let NERDTreeQuitOnOpen = 1
 
+" == minibufexpl
+map <Leader>e :MBEFocus<CR>
+let g:miniBufExplVSplit = 30
+let g:miniBufExplBRSplit = 1
+let g:miniBufExplShowBufNumbers = 1
+let g:miniBufExplTabWrap = 0
+let g:miniBufExplHideWhenDiff = 1
+let g:miniBufExplCycleArround = 1
+"let g:miniBufExplorerAutoStart = 0
+"let g:miniBufExplCloseOnSelect = 1
+let g:miniBufExplSplitToEdge = 1
+
+
+" == ansible-vim
+au BufRead,BufNewFile */playbooks/*.yml set filetype=yaml.ansible
+au BufRead,BufNewFile */roles/*.yml     set filetype=yaml.ansible
+autocmd FileType yaml.ansible  setlocal ts=2 sts=2 sw=2 re=1 expandtab
+
+
 " == airline
 highlight User1 ctermfg=black    ctermbg=grey
 highlight User2 ctermfg=darkred  ctermbg=grey
@@ -160,11 +180,12 @@ set statusline+=%3*%=%5{&ff}%*	"file format
 set statusline+=%2*%=%5l%*		"current line
 set statusline+=%2*/%L%*		"total lines
 set statusline+=%2*%4v\ %*		"current column
-set statusline+=%2*\ \ %m%r%w\ %P\ \ "modified readonly? Top/Bot "Top/Bot/Modified
+"set statusline+=%2*\ \ %m%r%w\ %P\ \ 
+"modified readonly? Top/Bot
+"Top/Bot/Modified
+let g:airline_extensions = []
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#formatter = 'default'
-"let g:airline#extensions#tabline#buffer_idx_mode = 2
-
-
+let g:airline#extensions#tabline#buffer_idx_mode = 2
 
 
